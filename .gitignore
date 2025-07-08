@@ -61,7 +61,7 @@ api/runtime/logs/
 .env.local
 .env.development
 .env.production
-
+/common/config/db.php
 # IDE
 .idea/
 .vscode/
