@@ -55,6 +55,20 @@ class TelegramNotifier
     self::sendMessage($text);
     }
 
+    public static function sendCrmErrorMessage(array $data)
+    {
+        $text = "❌ Ошибка отправки в CRM:\n\n";
+
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $value = json_encode($value, JSON_UNESCAPED_UNICODE);
+            }
+            $text .= "$key: " . substr((string)$value, 0, 200) . "\n";
+        }
+
+        self::sendMessage($text);
+    }
+
     public static function sendDuplicateMessage(array $params)
     {
         $text = 'дубль заказа. параметры: ';
