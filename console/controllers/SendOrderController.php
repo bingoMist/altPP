@@ -78,6 +78,25 @@ class SendOrderController extends Controller
                 }
             }
 
+            // Проверка на "Дубль заказа" в ответе
+            if (isset($responseData['status']) && mb_strpos(mb_strtolower($responseData['status']), 'дубль заказа') !== false) {
+                $order->status = 8;
+            
+                // Сохраняем текст из status в комментарий
+                $order->comment = substr($responseData['status'], 0, 255); // Ограничиваем длину
+            
+                $order->save(false);
+            
+                TelegramNotifier::sendCrmErrorMessage([
+                    'orderId' => $order->id,
+                    'note' => 'Заказ помечен как дубль в CRM',
+                    'crm_response' => $responseData
+                ]);
+            
+                echo "Заказ {$order->id} является дублем в CRM. Статус изменён на 8. Комментарий: {$order->comment}\n";
+                continue;
+            }
+
             // Если ошибка
             TelegramNotifier::sendCrmErrorMessage([
                 'orderId' => $order->id,

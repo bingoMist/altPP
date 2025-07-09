@@ -69,6 +69,24 @@ class TelegramNotifier
         self::sendMessage($text);
     }
 
+    public static function sendStatusCheckErrorMessage(array $data)
+        {
+            $text = "❌ Ошибка опроса статусов:\n\n";
+            foreach ($data as $key => $value) {
+                $text .= "$key: $value\n";
+            }
+            self::sendMessage($text);
+        }
+
+    public static function sendUnknownStatusMessage(array $data)
+        {
+            $text = "⚠️ Неизвестный статус в CRM:\n";
+            foreach ($data as $key => $value) {
+                $text .= "$key: $value\n";
+            }
+            self::sendMessage($text);
+        }
+
     public static function sendDuplicateMessage(array $params)
     {
         $text = 'дубль заказа. параметры: ';
