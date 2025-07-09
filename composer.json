@@ -36,15 +36,15 @@
         "psr-4": {
             "common\\tests\\": ["common/tests/", "common/tests/_support"],
             "backend\\tests\\": ["backend/tests/", "backend/tests/_support"],
-            "frontend\\tests\\": ["frontend/tests/", "frontend/tests/_support"],
-            "console\\controllers\\": "console/controllers/"
+            "frontend\\tests\\": ["frontend/tests/", "frontend/tests/_support"]
         }
     },
     "autoload": {
         "psr-4": {
             "api\\": "api",
-            "common\\": "common/",
-            "api\\components\\": "api/components/"
+            "common\\": "common",
+            "api\\components\\": "api/components",
+            "console\\controllers\\": "console/controllers"
         }
     },
     "config": {
