@@ -66,6 +66,15 @@ AppAsset::register($this);
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
+    <aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">Меню</li>
+            <li><a href="/"><i class="fa fa-dashboard"></i> <span>Главная</span></a></li>
+            <li><a href="/orders"><i class="fa fa-shopping-cart"></i> <span>Заказы</span></a></li>
+        </ul>
+    </section>
+</aside>
 </main>
 
 <footer class="footer mt-auto py-3 text-muted">

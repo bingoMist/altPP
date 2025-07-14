@@ -20,6 +20,8 @@ class OrderForm extends Model
     public $sub_id;
     public $web_id;
     public $comment;
+    public $source;
+    public $split;
 
     private $_errors = [];
 
@@ -57,6 +59,8 @@ class OrderForm extends Model
             ['sub_id', 'string', 'max' => 50, 'skipOnEmpty' => true],
             ['web_id', 'string', 'max' => 50, 'skipOnEmpty' => true],
             ['comment', 'string', 'max' => 50, 'skipOnEmpty' => true],
+            ['source', 'string', 'max' => 25, 'skipOnEmpty' => true],
+            ['split', 'integer', 'min' => 1, 'max' => 999999, 'skipOnEmpty' => true],
         ];
     }
 
@@ -98,6 +102,8 @@ class OrderForm extends Model
         $this->sub_id = is_string($this->sub_id) ? substr(trim($this->sub_id), 0, 50) : null;
         $this->web_id = is_string($this->web_id) ? substr(trim($this->web_id), 0, 50) : null;
         $this->comment = is_string($this->comment) ? substr(trim($this->comment), 0, 50) : null;
+        $this->source = is_string($this->source) ? substr(trim($this->source), 0, 25) : null;
+        $this->split = is_numeric($this->split) ? (int)$this->split : null;
     }
 
     public static function cleanPhone($value)

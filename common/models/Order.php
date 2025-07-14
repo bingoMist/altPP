@@ -19,6 +19,7 @@ class Order extends ActiveRecord
             [['comment', 'sub_id', 'web_id', 'crm_order_id'], 'safe'],
         ];
     }
+
     public static function isDuplicate($partnerId, $offerId, $phone, $subId = null)
     {
         $query = self::find()
@@ -34,5 +35,10 @@ class Order extends ActiveRecord
         $query->andWhere(['>', 'date', new Expression('NOW() - INTERVAL 30 MINUTE')]);
 
         return (bool)$query->one();
+    }
+
+    public function getStatusModel()
+    {
+        return $this->hasOne(Status::class, ['id' => 'status']);
     }
 }

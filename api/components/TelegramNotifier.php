@@ -55,6 +55,21 @@ class TelegramNotifier
     self::sendMessage($text);
     }
 
+    public static function sendPostbackErrorMessage(array $params)
+    {
+        $text = "❌ Ошибка postback:\n";
+
+        foreach ($params as $key => $value) {
+            if (is_scalar($value)) {
+                $text .= "$key: $value\n";
+            } else {
+                $text .= "$key: " . json_encode($value, JSON_UNESCAPED_UNICODE) . "\n";
+            }
+        }
+
+        self::sendMessage($text);
+    }
+
     public static function sendCrmErrorMessage(array $data)
     {
         $text = "❌ Ошибка отправки в CRM:\n\n";
