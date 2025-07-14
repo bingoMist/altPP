@@ -8,6 +8,8 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
+use common\models\Order;
+use common\models\Partner;
 
 /**
  * Site controller
@@ -62,9 +64,18 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        // return $this->render('index');
-        $user = Yii::$app->user->identity;
-        return $this->renderContent("Вы успешно вошли! Привет, " . $user->username);
+    $today = date('Y-m-d');
+    $ordersToday = Order::find()->andWhere(['>=', 'date', $today])->count();
+    $totalOrders = Order::find()->count();
+    $totalPartners = Partner::find()->count();
+    $totalRevenue = Order::find()->sum('price');
+
+    return $this->render('index', [
+        'ordersToday' => $ordersToday,
+        'totalOrders' => $totalOrders,
+        'totalPartners' => $totalPartners,
+        'totalRevenue' => $totalRevenue,
+    ]);
     }
 
     /**

@@ -10,33 +10,16 @@ class TelegramErrorHandler extends ErrorHandler
 {
     public function handleException($exception)
     {
-        // Сначала стандартная обработка ошибок
+        $text = "🚨 Ошибка: " . get_class($exception) . "\n";
+        $text .= "Сообщение: " . $exception->getMessage() . "\n";
+        $text .= "Файл: " . $exception->getFile() . "\n";
+        $text .= "Строка: " . $exception->getLine() . "\n";
+        $text .= "Трассировка:\n" . $exception->getTraceAsString();
+
+        // Отправляем в Telegram
+        TelegramNotifier::sendMessage($text);
+
+        // Продолжаем стандартную обработку ошибок
         parent::handleException($exception);
-
-        // Теперь отправляем в Telegram
-        $message = "Ошибка:\n";
-        $message .= "Код: " . $exception->getCode() . "\n";
-        $message .= "Сообщение: " . $exception->getMessage() . "\n";
-        $message .= "Файл: " . $exception->getFile() . "\n";
-        $message .= "Строка: " . $exception->getLine() . "\n";
-        $message .= "Trace:\n" . $exception->getTraceAsString();
-
-        // Ограничиваем длину
-        if (strlen($message) > 4096) {
-            $message = substr($message, 0, 4096 - 30) . "... [обрезано]";
-        }
-
-        $botToken = '5237886982:AAG3AK8ZYLBG7BaBGGlRe3UNK4MFKeVee1c';
-        $chatId = '-4537041942';
-        $text = urlencode($message);
-        $url = "https://api.telegram.org/bot5237886982:AAG3AK8ZYLBG7BaBGGlRe3UNK4MFKeVee1c/sendMessage?chat_id=-4537041942&text=" . $text;
-
-        // Отправляем через curl
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // только для теста
-        curl_exec($ch);
-        curl_close($ch);
     }
 }

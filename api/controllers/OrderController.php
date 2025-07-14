@@ -32,6 +32,8 @@ class OrderController extends Controller
         $form->sub_id = $data['sub_id'] ?? null;
         $form->web_id = $data['web_id'] ?? null;
         $form->comment = $data['comment'] ?? null;
+        $form->source = $data['source'] ?? null;
+        $form->split = $data['split'] ?? null;
 
         if ($form->validate()) {
             $form->clearOptionalFields();
@@ -63,6 +65,8 @@ class OrderController extends Controller
                 $order->comment = $form->comment;
                 $order->sub_id = $form->sub_id;
                 $order->web_id = $form->web_id;
+                $order->source = $form->source;
+                $order->split = $form->split;
 
                 if ($order->save(false)) {
                     TelegramNotifier::sendSuccessMessage((int)$order->id);
@@ -92,6 +96,8 @@ class OrderController extends Controller
             $order->comment = $form->comment;
             $order->sub_id = $form->sub_id;
             $order->web_id = $form->web_id;
+            $order->source = $form->source;
+            $order->split = $form->split;
 
             if ($order->save(false)) {
                 TelegramNotifier::sendSuccessMessage((int)$order->id);

@@ -36,7 +36,12 @@ class PostbackController extends Controller
                 $item->status = "$httpCode";
             }
 
-            $item->save();
+            if (!$item->save()) {
+                TelegramNotifier::sendPostbackErrorMessage([
+                    'url' => $item->url,
+                    'errors' => $item->getErrors()
+                ]);
+            }
         }
 
         echo "Обработка завершена.\n";
