@@ -46,6 +46,18 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 'orders' => 'order/index',
+                
+                'countries' => 'country/index',
+                'country/create' => 'country/create',
+                'country/<id:\d+>/edit' => 'country/update',
+
+                'offers' => 'offer/index',
+                'offer/create' => 'offer/create',
+                'offer/<id:\d+>/edit' => 'offer/update',
+
+                'webs' => 'webs/index',
+                'webs/create' => 'webs/create',
+                'webs/<id:\d+>/edit' => 'webs/update',
             ],
         ],
     ],
