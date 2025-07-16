@@ -199,4 +199,10 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+    public function actionError()
+    {
+        $this->layout = 'plain';
+        return $this->render('error');
+    }
 }

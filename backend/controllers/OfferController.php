@@ -10,6 +10,21 @@ use yii\data\ArrayDataProvider;
 
 class OfferController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'], // Только авторизованные
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $offers = Offer::find()->all();

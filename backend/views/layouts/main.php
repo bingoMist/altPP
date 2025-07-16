@@ -4,7 +4,6 @@ use yii\widgets\Breadcrumbs;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-
 $this->beginPage()
 ?>
 <!DOCTYPE html>
@@ -15,23 +14,93 @@ $this->beginPage()
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-
+    <script src="/assets/35df895c/jquery.js"></script>
     <!-- AdminLTE -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css " />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css " />
+    <style>
+.user-menu .dropdown-menu {
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 0.35rem;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    border: none;
+    background-color: #f6f9fc;
+    font-size: 14px;
+}
+
+.user-menu .dropdown-item {
+    padding: 10px 15px;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s;
+}
+
+.user-menu .dropdown-item:hover {
+    background-color: #e9ecef;
+}
+
+.user-menu .dropdown-divider {
+    margin: 10px 0;
+    border-top: 1px solid #dee2e6;
+}
+
+.user-menu .dropdown-footer {
+    padding-top: 5px;
+}
+
+.user-menu .btn-flat {
+    font-size: 13px;
+    padding: 6px 10px;
+    background-color: #007bff;
+    color: white;
+    width: 100%;
+    border-radius: 0.25rem;
+}
+
+.user-menu .btn-flat:hover {
+    background-color: #0056b3;
+}
+</style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <div class="wrapper">
 
-    <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-dark navbar-info">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-            </li>
-        </ul>
-    </nav>
+<nav class="main-header navbar navbar-expand navbar-dark navbar-info">
+    <!-- Левая часть -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                <i class="fas fa-bars"></i>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Правая часть -->
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown user-menu">
+            <a href="#" class="nav-link dropdown-toggle" id="userDropdown" role="button">
+                <span class="nav-icon fas fa-user"></span>
+                <span class="d-none d-md-inline"><?= Yii::$app->user->isGuest ? 'Гость' : Yii::$app->user->identity->username ?></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" id="userDropdownMenu" style="display: none;">
+                <div class="dropdown-item">
+                    <small>Вы вошли как:</small><br>
+                    <strong><?= Yii::$app->user->isGuest ? 'Гость' : Yii::$app->user->identity->username ?></strong>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-footer">
+                    <?= \yii\helpers\Html::beginForm(['/site/logout'], 'post') ?>
+                    <?= \yii\helpers\Html::submitButton(
+                        'Выйти',
+                        ['class' => 'btn btn-default btn-flat', 'style' => 'width:100%;']
+                    ) ?>
+                    <?= \yii\helpers\Html::endForm() ?>
+                </div>
+            </div>
+        </li>
+    </ul>
+</nav>
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -42,12 +111,6 @@ $this->beginPage()
 
         <!-- Sidebar -->
         <div class="sidebar">
-            <!-- Sidebar user panel (optional) -->
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="info">
-                    <a href="#" class="d-block"><?= Yii::$app->user->identity->username ?? 'Администратор' ?></a>
-                </div>
-            </div>
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
@@ -146,6 +209,26 @@ $this->beginPage()
     </footer>
 </div>
 
+<?php
+$js = <<<JS
+    $(document).ready(function () {
+    const dropdownToggle = $('#userDropdown');
+    const dropdownMenu = $('#userDropdownMenu');
+
+    dropdownToggle.on('click', function (e) {
+        e.preventDefault();
+        dropdownMenu.toggle();
+    });
+
+    $(document).on('click', function (e) {
+        if (!dropdownToggle.is(e.target) && !dropdownToggle.has(e.target).length && !dropdownMenu.is(e.target) && !dropdownMenu.has(e.target).length) {
+            dropdownMenu.hide();
+        }
+    });
+});
+JS;
+$this->registerJs($js);
+?>
 <?php $this->endBody() ?>
 
 <!-- AdminLTE App -->

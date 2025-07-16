@@ -10,6 +10,21 @@ use yii\helpers\ArrayHelper;
 
 class OrderController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'], // Только авторизованные
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         $request = Yii::$app->request;
