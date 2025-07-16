@@ -9,6 +9,21 @@ use yii\helpers\Html;
 
 class LogController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'], // Только авторизованные
+                    ],
+                ],
+            ],
+        ];
+    }
+    
     public function actionIndex()
     {
         // --- Пути к логам ---

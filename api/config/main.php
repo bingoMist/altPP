@@ -29,6 +29,7 @@ return [
         ],
         'errorHandler' => [
             'class' => 'api\components\TelegramErrorHandler',
+            'errorAction' => 'site/error',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

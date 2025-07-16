@@ -32,13 +32,8 @@ class OrderForm extends Model
             [['fullName', 'phone', 'country', 'price', 'partnerId', 'accessToken', 'offerId'], 'required'],
 
             // fullName
-            ['fullName', 'filter', 'filter' => function ($value) {
-                $cleaned = preg_replace('/[^\p{L}\p{N}\s]/u', '', trim($value));
-                if ($cleaned !== trim($value)) {
-                    Yii::error("Пользователь передал недопустимые символы в fullName: " . $value, 'api_form_validation');
-                }
-            return $cleaned;
-            }],
+            ['fullName', 'filter', 'filter' => '\api\models\OrderForm::cleanName'],
+
             ['fullName', 'string', 'min' => 3, 'max' => 50],
 
             // phone
@@ -115,20 +110,38 @@ class OrderForm extends Model
     {
         // Убираем всё, кроме цифр и '+'
         $cleaned = preg_replace('/[^\d\+]/', '', $value);
-
+    
         if (!$cleaned) {
             return '';
         }
-
-        // Если '+' не первый символ — удаляем его из строки
-        if ($cleaned[0] !== '+') {
+    
+        // Если '+' есть, но он не первый — удаляем все '+' и возвращаем чистые цифры
+        if (strpos($cleaned, '+') !== false && $cleaned[0] !== '+') {
             $cleaned = preg_replace('/\+/', '', $cleaned); // удаляем все '+'
             return $cleaned;
         }
+    
+        // Если '+' в начале — убираем дубли
+        if ($cleaned[0] === '+') {
+            // Удаляем все '+' кроме первого
+            $cleaned = '+' . preg_replace('/\+/', '', substr($cleaned, 1));
+        } else {
+            // Если '+' нет — добавляем его в начало
+            $cleaned = '+' . $cleaned;
+        }
+    
+        return $cleaned;
+    }
 
-        // Оставляем только один '+' в начале
-        $cleaned = preg_replace('/\+/u', '', $cleaned);
-        $cleaned = '+' . $cleaned;
+    public static function cleanName($value)
+    {
+        // Убираем все спецсимволы, оставляем только буквы и цифры + пробелы
+        $cleaned = preg_replace('/[^\p{L}\p{N}\s]/u', '', trim($value));
+
+        // Если длина меньше 3 символов — возвращаем стандартное значение
+        if (mb_strlen($cleaned, 'UTF-8') < 3) {
+            return 'Заказ обратного звонка';
+        }
 
         return $cleaned;
     }

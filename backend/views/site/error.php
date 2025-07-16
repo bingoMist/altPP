@@ -1,27 +1,11 @@
 <?php
-
-/** @var yii\web\View $this */
-/** @var string $name */
-/** @var string $message */
-/** @var Exception $exception*/
-
 use yii\helpers\Html;
 
-$this->title = $name;
+$this->title = 'Страница не найдена';
 ?>
-<div class="site-error">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
-    </div>
-
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
-
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; font-family: Arial, sans-serif;">
+    <h1 style="font-size: 48px; color: #333;">404</h1>
+    <h2 style="font-size: 24px; color: #555;">Страница не найдена</h2>
+    <p>Запрашиваемая страница не существует.</p>
+    <a href="/" style="color: #007bff; text-decoration: none;">← На главную</a>
 </div>

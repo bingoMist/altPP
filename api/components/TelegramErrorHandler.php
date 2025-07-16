@@ -4,7 +4,7 @@ namespace api\components;
 
 use yii\web\ErrorHandler;
 use yii\helpers\Url;
-use Yii;
+use api\components\TelegramNotifier;
 
 class TelegramErrorHandler extends ErrorHandler
 {
