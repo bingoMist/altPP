@@ -75,6 +75,8 @@ class CheckStatusController extends Controller
                     'http_code' => $httpCode,
                     'response' => $response,
                 ]);
+                echo "Ошибка при запросе статусов " . $url . ".\n";
+                //echo "Ошибка при запросе статусов " . $url . "ответ: " . $response . ".\n";
                 continue;
             }
 
@@ -85,6 +87,8 @@ class CheckStatusController extends Controller
                     'note' => 'Неверный формат ответа от CRM',
                     'response' => $response,
                 ]);
+                //echo "Неверный формат ответа от CRM " . $url . "ответ: " . $response . ".\n";
+                echo "Неверный формат ответа от CRM " . $url . ".\n";
                 continue;
             }
 
@@ -123,6 +127,7 @@ class CheckStatusController extends Controller
                         'order_id' => $order->id,
                         'crm_status' => $status,
                     ]);
+                    echo "Неизвестный статус заказа" . $order->id . $status . ".\n";
                 }
 
                 // Сохраняем изменения

@@ -9,6 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="order-index">
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <!-- Форма фильтров -->
     <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'get']); ?>

@@ -33,7 +33,11 @@ class OrderForm extends Model
 
             // fullName
             ['fullName', 'filter', 'filter' => function ($value) {
-                return preg_replace('/[^\p{L}\p{N}\s]/u', '', trim($value)); // Убираем эмодзи и лишние символы
+                $cleaned = preg_replace('/[^\p{L}\p{N}\s]/u', '', trim($value));
+                if ($cleaned !== trim($value)) {
+                    Yii::error("Пользователь передал недопустимые символы в fullName: " . $value, 'api_form_validation');
+                }
+            return $cleaned;
             }],
             ['fullName', 'string', 'min' => 3, 'max' => 50],
 
@@ -73,6 +77,7 @@ class OrderForm extends Model
 
         if (!$partner) {
             $this->addError('partnerId', 'partnerId or access-token');
+            Yii::error("Ошибка валидации: Не найден партнер. partnerId={$this->partnerId}, accessToken={$this->accessToken}", 'api_form_validation');
         }
     }
 
@@ -83,7 +88,7 @@ class OrderForm extends Model
             'phone' => 'wrong name or phone',
             'country' => 'wrong country',
             'price' => 'wrong price',
-            'partnerId' => 'partnerId or access-token',
+            'partnerId' => 'wrong partnerId or access-token',
             'offerId' => 'wrong offerId',
         ];
 

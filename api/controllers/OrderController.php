@@ -12,7 +12,9 @@ use common\models\Order;
 use api\components\TelegramNotifier;
 use yii\web\HttpException;
 use common\models\Postback;
-use api\components\PostbackHandler;// throw new \yii\web\HttpException(500, "Тестовое исключение");
+use api\components\PostbackHandler;
+use yii;
+use api\components\SimpleLogger;
 
 class OrderController extends Controller
 {
@@ -48,6 +50,7 @@ class OrderController extends Controller
 
             if (!$country || !$offer || !$partner) {
                 TelegramNotifier::sendValidationErrorMessage($data);
+                SimpleLogger::log('api_errors', 'Не найдены country/offer/partner');
                 return ['status' => 'ERROR', 'message' => 'wrong country or offer or partner'];
             }
 
@@ -73,13 +76,16 @@ class OrderController extends Controller
                     return ['status' => 'OK', 'id' => $order->id, 'type' => 'test'];
                 } else {
                     TelegramNotifier::sendSaveErrorMessage($data);
+                    SimpleLogger::log('api_errors', "Не удалось сохранить тестовый заказ");
                     return ['status' => 'ERROR', 'message' => 'Не удалось сохранить тестовый заказ'];
                 }
             }
 
             // Обычный заказ — проверка дубликата
+            $sub_id = isset($form->sub_id) ? $form->sub_id : null;
             if (Order::isDuplicate($form->partnerId, $form->offerId, $form->phone, $form->sub_id)) {
                 TelegramNotifier::sendDuplicateMessage($data);
+                SimpleLogger::log('api_errors', "Дубль заказа: " . json_encode($data));
                 return ['status' => 'ERROR', 'message' => 'дубль заказа'];
             }
 
@@ -105,11 +111,13 @@ class OrderController extends Controller
                 return ['status' => 'OK', 'id' => $order->id];
             } else {
                 TelegramNotifier::sendSaveErrorMessage($data);
+                SimpleLogger::log('api_errors', "Ошибка при сохранении заказа. Ошибки: " . json_encode($order->getErrors()));
                 return ['status' => 'ERROR', 'message' => 'Не удалось сохранить заказ'];
             }
         } else {
             TelegramNotifier::sendValidationErrorMessage($data);
             $errors = $form->getErrorsList();
+            SimpleLogger::log('api_errors', "Ошибки валидации: " . json_encode($data));
             return ['status' => 'ERROR', 'message' => implode(', ', $errors)];
         }
     }
