@@ -30,6 +30,7 @@ class SendOrderController extends Controller
                     'orderId' => $order->id,
                     'errors' => ['missing country or offer']
                 ]);
+                echo "missing country or offer " . $order->id . "\n";
                 continue;
             }
 

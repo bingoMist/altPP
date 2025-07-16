@@ -61,7 +61,7 @@ $this->beginPage()
                         </a>
                     </li>
 
-                    <li class="nav-header">Модули</li>
+                    <li class="nav-header">Статистики</li>
 
                     <!-- Заказы -->
                     <li class="nav-item">
@@ -81,29 +81,14 @@ $this->beginPage()
 
                     <li class="nav-header">Настройки</li>
 
-                    
-                    <!-- Страны -->
                     <li class="nav-item">
-                        <a href="/countries" class="nav-link">
-                            <i class="nav-icon fas fa-flag"></i>
-                            <p>Страны</p>
-                        </a>
+                        <?= Html::a('<i class="nav-icon fas fa-flag"></i><p>Страны</p>', ['/country'], ['class' => 'nav-link']) ?>
                     </li>
-
-                    <!-- Офферы -->
                     <li class="nav-item">
-                        <a href="/offers" class="nav-link">
-                            <i class="nav-icon fas fa-bullhorn"></i>
-                            <p>Офферы</p>
-                        </a>
+                        <?= Html::a('<i class="nav-icon fas fa-briefcase"></i><p>Офферы</p>', ['/offer'], ['class' => 'nav-link']) ?>
                     </li>
-
-                    <!-- Партнёры -->
                     <li class="nav-item">
-                        <a href="/webs" class="nav-link">
-                            <i class="nav-icon fas fa-user-friends"></i>
-                            <p>Вебы</p>
-                        </a>
+                        <?= Html::a('<i class="nav-icon fas fa-user-secret"></i><p>Вебы</p>', ['/web'], ['class' => 'nav-link']) ?>
                     </li>
 
                     <!-- Пользователи 
@@ -114,12 +99,11 @@ $this->beginPage()
                         </a>
                     </li> -->
 
+                    <li class="nav-header">Системные</li>
+
                     <!-- Логи -->
                     <li class="nav-item">
-                        <a href="/admin/log/index" class="nav-link">
-                            <i class="nav-icon fas fa-file-alt"></i>
-                            <p>Логи</p>
-                        </a>
+                        <?= Html::a('<i class="nav-icon fas fa-file-alt"></i><p>Логи</p>', ['/logs'], ['class' => 'nav-link']) ?>
                     </li>
 
                 </ul>
@@ -136,7 +120,6 @@ $this->beginPage()
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0"><?= Html::encode($this->title) ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <?= Breadcrumbs::widget([
@@ -157,7 +140,9 @@ $this->beginPage()
 
     <!-- Main Footer -->
     <footer class="main-footer">
+        <center>
         <strong>© m4leads.org • <?= date('Y') ?></strong>
+        </center>
     </footer>
 </div>
 

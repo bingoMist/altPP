@@ -20,21 +20,27 @@ class Order extends ActiveRecord
         ];
     }
 
-    public static function isDuplicate($partnerId, $offerId, $phone, $subId = null)
+    public static function isDuplicate($partnerId, $offerId, $phone, $sub_id = null)
     {
         $query = self::find()
             ->where(['partner_id' => $partnerId])
             ->andWhere(['offer_id' => $offerId])
             ->andWhere(['phone' => $phone]);
 
-        if (!empty($subId)) {
-            $query->andWhere(['sub_id' => $subId]);
+        if (!empty($sub_id)) {
+            $query->andWhere(['sub_id' => $sub_id]);
         }
 
         // Проверяем, был ли заказ создан за последние 30 минут
         $query->andWhere(['>', 'date', new Expression('NOW() - INTERVAL 30 MINUTE')]);
 
-        return (bool)$query->one();
+        $duplicate = $query->exists();
+
+        if ($duplicate) {
+            \Yii::error("Дублированный заказ: partnerId={$partnerId}, offerId={$offerId}, phone={$phone}, sub_id=" . ($sub_id ?? 'empty'), 'api_duplicate');
+        }
+
+    return $duplicate;
     }
 
     public function getStatusModel()

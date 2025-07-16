@@ -37,6 +37,38 @@ return [
                 'order/add' => 'order/add',
             ],
         ],
+        'log' => [
+            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'targets' => [
+// Основной логгер (app.log)
+[
+    'class' => 'yii\log\FileTarget',
+    'levels' => ['error', 'warning', 'info'],
+    'logFile' => '@runtime/logs/app.log',
+],
+// Тестовый логгер
+[
+    'class' => 'yii\log\FileTarget',
+    'categories' => ['test'],
+    'logFile' => '@runtime/logs/test.log',
+    'levels' => ['error', 'warning', 'info', 'trace'],
+],
+// Ошибки дубликатов
+[
+    'class' => 'yii\log\FileTarget',
+    'categories' => ['api_duplicate'],
+    'logFile' => '@runtime/logs/send_order.log',
+    'levels' => ['error', 'info'],
+],
+// Ошибки формы
+[
+    'class' => 'yii\log\FileTarget',
+    'categories' => ['api_form_validation'],
+    'logFile' => '@runtime/logs/form_validation.log',
+    'levels' => ['error', 'info'],
+],
+            ],
+        ],
     ],
     'params' => $params,
 ];

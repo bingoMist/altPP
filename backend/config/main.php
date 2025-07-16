@@ -46,18 +46,23 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 'orders' => 'order/index',
-                
-                'countries' => 'country/index',
+                // Страны
+                'country' => 'country/index',
                 'country/create' => 'country/create',
-                'country/<id:\d+>/edit' => 'country/update',
+                'country/edit' => 'country/edit',
 
-                'offers' => 'offer/index',
+                // Офферы
+                'offer' => 'offer/index',
                 'offer/create' => 'offer/create',
-                'offer/<id:\d+>/edit' => 'offer/update',
+                'offer/edit' => 'offer/edit',
 
-                'webs' => 'webs/index',
-                'webs/create' => 'webs/create',
-                'webs/<id:\d+>/edit' => 'webs/update',
+                // Вебы
+                'web' => 'web/index',
+                'web/create' => 'web/create',
+                'web/edit' => 'web/edit',
+
+                // Логи
+                'logs' => 'log/index',
             ],
         ],
     ],

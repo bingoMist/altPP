@@ -34,6 +34,7 @@ class PostbackController extends Controller
                 $item->status = '200 OK';
             } else {
                 $item->status = "$httpCode";
+                echo "Ошибка при отправке постбэка {$item->id}. Статус: " . $item->status . "\n";
             }
 
             if (!$item->save()) {
@@ -41,6 +42,7 @@ class PostbackController extends Controller
                     'url' => $item->url,
                     'errors' => $item->getErrors()
                 ]);
+                echo "Ошибка при сохранении постбэка {$item->id}. Ошибка: " . $item->getErrors() . "\n";
             }
         }
 

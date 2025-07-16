@@ -3,53 +3,58 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Country;
-use yii\data\ActiveDataProvider;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\web\Request;
+use backend\models\CountryForm;
+use common\models\Country;
+use yii\data\ArrayDataProvider;
 
 class CountryController extends Controller
 {
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Country::find(),
-            'pagination' => ['pageSize' => 50],
+        $countries = Country::find()->all();
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $countries,
+            'pagination' => false,
         ]);
 
-        return $this->render('index', [
+        return $this->render('@backend/views/default/list-country', [
             'dataProvider' => $dataProvider,
         ]);
     }
 
     public function actionCreate()
     {
-        $model = new Country();
+        $model = new CountryForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            Yii::$app->session->setFlash('success', 'Страна создана');
+            return $this->redirect(['edit', 'id' => $model->id]);
         }
 
-        return $this->render('create', ['model' => $model]);
+        return $this->render('@backend/views/default/create', [
+            'model' => $model,
+            'title' => 'Создать страну',
+        ]);
     }
 
-    public function actionUpdate($id)
+    public function actionEdit($id)
     {
-        $model = $this->findModel($id);
+        $country = Country::findOne($id);
+        if (!$country) throw new NotFoundHttpException('Страна не найдена');
+
+        $model = new CountryForm();
+        $model->loadFromModel($country);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            Yii::$app->session->setFlash('success', 'Изменения сохранены');
+            return $this->redirect(['edit', 'id' => $model->id]);
         }
 
-        return $this->render('update', ['model' => $model]);
-    }
-
-    protected function findModel($id)
-    {
-        if (($model = Country::findOne(['id' => $id])) !== null) {
-            return $model;
-        }
-        throw new NotFoundHttpException('Страна не найдена.');
+        return $this->render('@backend/views/default/edit', [
+            'model' => $model,
+            'title' => 'Редактировать страну',
+        ]);
     }
 }

@@ -3,53 +3,58 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Offer;
-use yii\data\ActiveDataProvider;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\web\Request;
+use backend\models\OfferForm;
+use common\models\Offer;
+use yii\data\ArrayDataProvider;
 
 class OfferController extends Controller
 {
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Offer::find(),
-            'pagination' => ['pageSize' => 50],
+        $offers = Offer::find()->all();
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $offers,
+            'pagination' => false,
         ]);
 
-        return $this->render('index', [
+        return $this->render('@backend/views/default/list-offer', [
             'dataProvider' => $dataProvider,
         ]);
     }
 
     public function actionCreate()
     {
-        $model = new Offer();
-
+        $model = new OfferForm();
+    
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            Yii::$app->session->setFlash('success', 'Оффер создан');
+            return $this->redirect(['edit', 'id' => $model->id]);
         }
-
-        return $this->render('create', ['model' => $model]);
+    
+        return $this->render('@backend/views/default/create', [
+            'model' => $model,
+            'title' => 'Создать оффер',
+        ]);
     }
-
-    public function actionUpdate($id)
+    
+    public function actionEdit($id)
     {
-        $model = $this->findModel($id);
-
+        $offer = Offer::findOne($id);
+        if (!$offer) throw new NotFoundHttpException('Оффер не найден');
+    
+        $model = new OfferForm();
+        $model->loadFromModel($offer);
+    
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            Yii::$app->session->setFlash('success', 'Изменения сохранены');
+            return $this->redirect(['edit', 'id' => $model->id]);
         }
-
-        return $this->render('update', ['model' => $model]);
-    }
-
-    protected function findModel($id)
-    {
-        if (($model = Offer::findOne(['id' => $id])) !== null) {
-            return $model;
-        }
-        throw new NotFoundHttpException('Страна не найдена.');
+    
+        return $this->render('@backend/views/default/edit', [
+            'model' => $model,
+            'title' => 'Редактировать оффер',
+        ]);
     }
 }

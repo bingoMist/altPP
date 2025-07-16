@@ -113,7 +113,7 @@ class TelegramNotifier
         self::sendMessage($text);
     }
 
-    private static function sendMessage(string $text)
+    public static function sendMessage(string $text)
     {
         $token = '5237886982:AAG3AK8ZYLBG7BaBGGlRe3UNK4MFKeVee1c';
         $chatId = '-4537041942';
