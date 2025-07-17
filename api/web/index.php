@@ -3,7 +3,6 @@
 require(__DIR__ . '/../../vendor/autoload.php');
 
 use Dotenv\Dotenv;
-use api\components\TelegramNotifier;
 
 //.env
 try {
@@ -11,12 +10,11 @@ try {
     $dotenv->load();
 } catch (\Exception $e) {
     $errorMessage = "❌ Ошибка загрузки .env: " . $e->getMessage();
-    TelegramNotifier::sendMessage($errorMessage);
     error_log($errorMessage);
-     die("Произошла критическая ошибка. Проверьте файл .env.");
+     die("Error. not found .env.");
 }
 
-defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_DEBUG') or define('YII_DEBUG', false);
 defined('YII_ENV') or define('YII_ENV', 'dev');
 
 require(__DIR__ . '/../../vendor/yiisoft/yii2/Yii.php');
