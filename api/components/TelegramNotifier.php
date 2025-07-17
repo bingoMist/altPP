@@ -7,9 +7,6 @@ use yii\helpers\ArrayHelper;
 
 class TelegramNotifier
 {
-    private const BOT_TOKEN = '5237886982:AAG3AK8ZYLBG7BaBGGlRe3UNK4MFKeVee1c';
-    private const CHAT_ID = '-4537041942';
-
     public static function sendSuccessMessage(int $orderId)
     {
         $text = 'успешный_прием_данных.заказ_' . $orderId;
@@ -115,8 +112,8 @@ class TelegramNotifier
 
     public static function sendMessage(string $text)
     {
-        $token = '5237886982:AAG3AK8ZYLBG7BaBGGlRe3UNK4MFKeVee1c';
-        $chatId = '-4537041942';
+        $token = $_ENV['TELEGRAM_BOT_TOKEN'];
+        $chatId = $_ENV['TELEGRAM_CHAT_ID'];
 
         $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatId . "&text=" . urlencode($text);
 

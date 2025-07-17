@@ -19,7 +19,7 @@ try {
      die("Произошла критическая ошибка. Проверьте файл .env.");
 }
 
-defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_DEBUG') or define('YII_DEBUG', false);
 defined('YII_ENV') or define('YII_ENV', 'dev');
 
 
