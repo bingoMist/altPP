@@ -53,7 +53,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
+                'class' => \backend\actions\CustomErrorAction::class,
             ],
         ];
     }
