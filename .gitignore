@@ -1,5 +1,5 @@
 # yii console commands
-/yii
+#/yii
 /yii_test
 /yii_test.bat
 
@@ -57,7 +57,6 @@ api/runtime/logs/
 .env.local
 .env.development
 .env.production
-/common/config/db.php
 # IDE
 .idea/
 .vscode/
