@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Yii console bootstrap file.
+ */
+
+defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_ENV') or define('YII_ENV', 'dev');
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Dotenv\Dotenv;
+use api\components\TelegramNotifier;
+
+//.env
+try {
+    $dotenv = Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+} catch (\Exception $e) {
+    $errorMessage = "❌ Ошибка загрузки .env: " . $e->getMessage();
+    TelegramNotifier::sendMessage($errorMessage);
+    echo "Ошибка загрузки .env: " . $e->getMessage() . "\n";
+    exit(1);
+}
+
+require __DIR__ . '/vendor/yiisoft/yii2/Yii.php';
+require __DIR__ . '/common/config/bootstrap.php';
+require __DIR__ . '/console/config/bootstrap.php';
+
+$config = yii\helpers\ArrayHelper::merge(
+    require __DIR__ . '/common/config/main.php',
+    require __DIR__ . '/common/config/main-local.php',
+    require __DIR__ . '/console/config/main.php',
+    require __DIR__ . '/console/config/main-local.php'
+);
+
+$application = new yii\console\Application($config);
+$exitCode = $application->run();
+exit($exitCode);
