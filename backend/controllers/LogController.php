@@ -26,6 +26,10 @@ class LogController extends Controller
     
     public function actionIndex()
     {
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
         // --- Пути к логам ---
         $apiLogPath = '/var/www/m4leads/api/runtime/logs/api_errors.log';
         $nginxLogPath = '/var/log/nginx/error.log';
@@ -50,9 +54,10 @@ class LogController extends Controller
                         // Декодируем JSON
                         $data = json_decode($jsonStr, true);
                         $jsonOneLine = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
+                        $datetime = new \DateTime($timestamp);
+                        $datetime->modify('+3 hours');
                         $apiLogs[] = [
-                            'time' => $timestamp,
+                            'time' => $datetime->format('Y-m-d H:i:s'),
                             'category' => $category,
                             'params' => $jsonOneLine,
                         ];
