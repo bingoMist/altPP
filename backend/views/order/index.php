@@ -5,13 +5,15 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 
 $this->title = 'Заказы';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="order-index">
 
     <!-- Форма фильтров -->
-    <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'get']); ?>
+    <?php $form = \yii\widgets\ActiveForm::begin([
+        'method' => 'get',
+        'action' => ['/orders'],
+    ]); ?>
     <div class="row">
         <div class="col-md-1">
             <?= \yii\helpers\Html::input('text', 'id', $searchModel['id'], ['class' => 'form-control', 'placeholder' => 'ID']) ?>

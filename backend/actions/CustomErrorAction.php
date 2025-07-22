@@ -14,7 +14,8 @@ class CustomErrorAction extends BaseErrorAction
 
         if ($exception instanceof NotFoundHttpException) {
             // Редирект на авторизацию при 404
-            return $this->controller->redirect(['site/error']);
+            $this->controller->layout = 'plain';
+            return $this->controller->render('404', ['exception' => $exception]);
         }
 
         //layout:

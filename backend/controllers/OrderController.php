@@ -63,7 +63,7 @@ class OrderController extends Controller
         $query->andFilterWhere(['id' => $searchModel['id']])
             ->andFilterWhere(['like', 'crm_order_id', $searchModel['crm_order_id']])
             ->andFilterWhere(['offer_id' => $searchModel['offer_id']])
-            ->andFilterWhere(['country_name' => $searchModel['country_name']])
+            ->andFilterWhere(['country_id' => $searchModel['country_name']])
             ->andFilterWhere(['partner_id' => $searchModel['partner_id']])
             ->andFilterWhere(['like', 'price', $searchModel['price']])
             ->andFilterWhere(['like', 'sub_id', $searchModel['sub_id']])

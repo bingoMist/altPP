@@ -134,6 +134,13 @@ $this->beginPage()
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="/statistics/partner" class="nav-link">
+                            <i class="nav-icon fas fa-user-friends"></i>
+                            <p>Партнеры</p>
+                        </a>
+                    </li>
+
                     <!-- Статусы 
                     <li class="nav-item">
                         <a href="/admin/status/index" class="nav-link">

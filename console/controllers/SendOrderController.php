@@ -10,11 +10,9 @@ use api\components\TelegramNotifier;
 
 class SendOrderController extends Controller
 {
-    const CRM_URL = 'http://api.m4crm.com/v1/order/create?access-token=4Eg5qa2QnBVca_MLqRw0seXZXz0F84x6';
-    const ACCESS_TOKEN = '4Eg5qa2QnBVca_MLqRw0seXZXz0F84x6';
-
     public function actionProcess()
     {
+        $crm_url = $_ENV['CRM_STATUS_URL'] . $_ENV['ACCESS_TOKEN'];
         echo "Начинаю отправку заказов в CRM...\n";
 
         // Ищем заказы со статусом 0
@@ -36,7 +34,6 @@ class SendOrderController extends Controller
 
             // Формируем данные для отправки
             $postData = [
-                // 'access-token' => self::ACCESS_TOKEN,
                 'country_code' => $country->country_iso,
                 'fio' => $order->name,
                 'phone' => $order->phone,
@@ -52,7 +49,7 @@ class SendOrderController extends Controller
             ];
 
             // Отправляем запрос
-            $ch = curl_init(self::CRM_URL);
+            $ch = curl_init($crm_url);
             curl_setopt_array($ch, [
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => $postData,
