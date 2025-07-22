@@ -57,7 +57,7 @@ class OrderForm extends Model
             // Дополнительные поля
             ['sub_id', 'string', 'max' => 50, 'skipOnEmpty' => true],
             ['web_id', 'string', 'max' => 50, 'skipOnEmpty' => true],
-            ['comment', 'string', 'max' => 50, 'skipOnEmpty' => true],
+            ['comment', 'string', 'max' => 100, 'skipOnEmpty' => true],
             ['source', 'string', 'max' => 25, 'skipOnEmpty' => true],
             ['split', 'integer', 'min' => 1, 'max' => 999999, 'skipOnEmpty' => true],
         ];

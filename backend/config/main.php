@@ -13,6 +13,12 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                'yii\bootstrap5\BootstrapAsset' => [],
+                'yii\bootstrap5\BootstrapPluginAsset' => [],
+            ],
+        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
@@ -63,6 +69,11 @@ return [
 
                 // Логи
                 'logs' => 'log/index',
+
+                // Статистика Партнеры
+                'statistics' => 'statistics/partner',
+                'statistics/partner-offer' => 'statistics/partner-offer',
+                'statistics/<action:\w+>' => 'statistics/<action>',
             ],
         ],
     ],

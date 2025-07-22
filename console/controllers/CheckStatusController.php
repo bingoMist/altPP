@@ -9,9 +9,6 @@ use api\components\TelegramNotifier;
 
 class CheckStatusController extends Controller
 {
-    const CRM_URL = 'http://api.m4crm.com/v1/order/status';
-    const ACCESS_TOKEN = '4Eg5qa2QnBVca_MLqRw0seXZXz0F84x6';
-
     // Статусы, которые не меняют текущий статус (остаются 6)
     private static $keepStatuses = [
         'intermediate', 'postponed_delivery', 'New', 'Process', 'new', 'processed',
@@ -36,6 +33,9 @@ class CheckStatusController extends Controller
 
     public function actionProcess()
     {
+        $crm_url = $_ENV['CRM_URL'];
+        $access_token = $_ENV['ACCESS_TOKEN'];
+        
         echo "Начинаю опрос статусов из CRM...\n";
 
         // Ищем заказы со статусом 6 и непустым crm_order_id
@@ -56,7 +56,7 @@ class CheckStatusController extends Controller
             $ids = implode(',', array_map(fn($o) => $o->crm_order_id, $chunk));
 
             // Формируем URL запроса
-            $url = self::CRM_URL . '?access-token=' . self::ACCESS_TOKEN . '&ids=' . urlencode($ids);
+            $url = $crm_url . '?access-token=' . $access_token . '&ids=' . urlencode($ids);
 
             // Выполняем запрос
             $ch = curl_init($url);
@@ -104,9 +104,12 @@ class CheckStatusController extends Controller
 
                 $status = strtolower($item['status'] ?? '');
 
-                // Обновляем комментарий
+                // Обновляем комментарий — максимум 100 символов
                 if (!empty($item['comment'])) {
-                    $order->comment = substr($item['comment'], 0, 50);
+                    $comment = trim($item['comment']);
+                    $order->comment = mb_strlen($comment, 'UTF-8') > 100
+                        ? mb_substr($comment, 0, 100, 'UTF-8')
+                        : $comment;
                 }
 
                 // Определяем новый статус

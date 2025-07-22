@@ -63,6 +63,7 @@ class OrderController extends Controller
                 $order->offer_name = $offer->name;
                 $order->status = 4; // Тестовый заказ
                 $order->country_name = $country->name;
+                $order->country_id = $country->id;
                 $order->partner_id = $form->partnerId;
                 $order->price = $form->price;
                 $order->comment = $form->comment;
@@ -97,6 +98,7 @@ class OrderController extends Controller
             $order->offer_name = $offer->name;
             $order->status = 0;
             $order->country_name = $country->name;
+            $order->country_id = $country->id;
             $order->partner_id = $form->partnerId;
             $order->price = $form->price;
             $order->comment = $form->comment;
