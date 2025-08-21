@@ -30,7 +30,7 @@ class OrderController extends Controller
         $request = Yii::$app->request;
     
         // Получаем данные для фильтров
-        $partners = \common\models\Partner::find()->select(['id'])->asArray()->column();
+        $partners = \common\models\Partner::find()->select(['id'])->asArray()->indexBy('id')->column();
         $offers = \common\models\Offer::find()->select(['id', 'name'])->asArray()->all();
         $countries = \common\models\Country::find()->select(['id', 'name'])->asArray()->all();
         $statuses = \common\models\Status::find()->select(['id', 'name'])->asArray()->all();

@@ -36,6 +36,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'order/add' => 'order/add',
+                'tilda/webhook' => 'tilda/webhook',
             ],
         ],
         'log' => [

@@ -45,6 +45,9 @@ $this->title = 'Заказы';
         <div class="col-md-2">
             <?= \yii\helpers\Html::input('date', 'date_to', $searchModel['date_to'], ['class' => 'form-control', 'placeholder' => 'По']) ?>
         </div>
+        <div class="col-md-1">
+        <?= \yii\helpers\Html::input('text', 'sub_id', $searchModel['sub_id'], ['class' => 'form-control', 'placeholder' => 'sub_id']) ?>
+        </div>
 
         <div class="col-md-1">
             <?= \yii\helpers\Html::submitButton('Найти', ['class' => 'btn btn-primary']) ?>
@@ -95,6 +98,7 @@ $this->title = 'Заказы';
             ],
             'price',
             'source',
+            'sub_id',
         ],
     ]); ?>
     <?php Pjax::end(); ?>

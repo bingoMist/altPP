@@ -27,9 +27,10 @@ class Order extends ActiveRecord
             ->andWhere(['offer_id' => $offerId])
             ->andWhere(['phone' => $phone]);
 
-        if (!empty($sub_id)) {
-            $query->andWhere(['sub_id' => $sub_id]);
-        }
+        // проверка по субиду на дубль   
+        // if (!empty($sub_id)) {
+        //     $query->andWhere(['sub_id' => $sub_id]);
+        // }
 
         // Проверяем, был ли заказ создан за последние 30 минут
         $query->andWhere(['>', 'date', new Expression('NOW() - INTERVAL 30 MINUTE')]);
